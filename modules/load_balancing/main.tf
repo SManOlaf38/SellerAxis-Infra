@@ -20,7 +20,7 @@ resource "aws_lb_target_group" "selleraxis_lb_target_group" {
   vpc_id      = var.vpc_id
 
   health_check {
-    path                = "/api/"
+    path                = var.health_check_path
     protocol            = "HTTP"
     timeout             = "5"
     interval            = "30"

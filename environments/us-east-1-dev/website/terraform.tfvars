@@ -37,15 +37,28 @@ security_group_https_ipv6_cidr_blocks = ["::/0"]
 security_group_ssh_cidr_blocks        = ["0.0.0.0/0"]
 # End AWS security group
 
-# Mongodb security group
-mongodb_security_group_name        = "mongodb-sg"
-mongodb_security_group_description = "Mongodb security group tls"
-# End Mongodb security group
-
 # AWS Load balancing
 alb_name                      = "selleraxis-alb"
 lb_target_group               = "selleraxis-api-service"
 # End AWS Load balancing
+
+# RDS security group
+rds_security_group_name        = "rds-sg"
+rds_security_group_description = "RDS security group tls"
+# End RDS security group
+
+# RDS
+allocated_storage               = 20
+storage_type                    = "io1"
+engine                          = "postgres"
+engine_version                  = "11.16"
+instance_class                  = "db.t2.micro"
+db_name                         = "selleraxis"
+username                        = "postgres"
+password                        = ""
+database_authentication_enabled = true
+backup_retention_period         = 0
+# End RDS
 
 # ACM Certificate
 domain_name                   = "api.selleraxis.com"
@@ -64,9 +77,20 @@ ecs_service_name                            = "selleraxis-api-service"
 container_name                              = "backend-api-container"
 container_port                              = 80
 task_family_name                            = "selleraxis"
+ecs_task_policy_name                        = "ecs-task-policy"
+ecs_task_role_name                          = "ecs-task-role"
 # End ECS service
 
 # S3
 photo_video_bucket_name        = "selleraxis-bucket"
 photo_video_bucket_acl         = "public-read"
 # End S3
+
+# SQS
+acknowledge_sqs_name = "acknowledge_sqs"
+# End SQS
+
+# Lambda
+acknowledge_forward_handler_name = "acknowledge_forward_handler"
+lambda_secret                    = "N6r7SJ4OvMyMR6UraQcIK4Q2ybbgjzj8LDuEAOAmfsG58qSBN4jA9TS8rJCk6yuZ"
+# End Lambda

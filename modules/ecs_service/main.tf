@@ -1,5 +1,5 @@
 resource "aws_iam_role" "task_role" {
-  name               = "ecs-task-role-${var.environment_name}"
+  name               = "${var.ecs_task_role_name}-${var.environment_name}"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -20,7 +20,7 @@ resource "aws_iam_role" "task_role" {
 }
 
 resource "aws_iam_role_policy" "task_policy" {
-  name = "ecs-task-policy-${var.environment_name}"
+  name = "${var.ecs_task_policy_name}-${var.environment_name}"
   role = aws_iam_role.task_role.id
 
   policy = <<EOF
@@ -29,7 +29,8 @@ resource "aws_iam_role_policy" "task_policy" {
   "Statement": [
     {
       "Action": [
-        "s3:*"
+        "s3:*",
+        "sqs:*"
       ],
       "Effect": "Allow",
       "Resource": "*"

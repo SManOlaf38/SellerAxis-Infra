@@ -103,3 +103,16 @@ variable "task_family_name" {
   default     = ""
   type        = string
 }
+
+variable "ecs_task_role_name" {
+  description = "The ECS task definition role name."
+  default     = ""
+  type        = string
+}
+
+
+variable "ecs_task_policy_name" {
+  description = "The ECS task definition policy name."
+  default     = ""
+  type        = string
+}
