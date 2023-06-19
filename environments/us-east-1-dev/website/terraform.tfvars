@@ -1,6 +1,6 @@
 aws_region = "us-east-1"
-aws_access_key = ""
-aws_secret_key = ""
+aws_access_key = "AKIA3JN6HHOXO4IOEZ7T"
+aws_secret_key = "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"
 
 environment_name                    = "dev"
 
@@ -41,24 +41,6 @@ security_group_ssh_cidr_blocks        = ["0.0.0.0/0"]
 alb_name                      = "selleraxis-alb"
 lb_target_group               = "selleraxis-api-service"
 # End AWS Load balancing
-
-# RDS security group
-rds_security_group_name        = "rds-sg"
-rds_security_group_description = "RDS security group tls"
-# End RDS security group
-
-# RDS
-allocated_storage               = 20
-storage_type                    = "io1"
-engine                          = "postgres"
-engine_version                  = "11.16"
-instance_class                  = "db.t2.micro"
-db_name                         = "selleraxis"
-username                        = "postgres"
-password                        = ""
-database_authentication_enabled = true
-backup_retention_period         = 0
-# End RDS
 
 # ACM Certificate
 domain_name                   = "api.selleraxis.com"

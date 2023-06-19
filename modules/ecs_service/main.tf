@@ -90,6 +90,10 @@ resource "aws_ecs_service" "selleraxis" {
     security_groups = var.security_group_ids
     subnets = var.subnet_ids
   }
+
+  lifecycle {
+    ignore_changes = ["task_definition"]
+  }
 }
 
 resource "aws_appautoscaling_target" "scaling_target" {

@@ -81,47 +81,6 @@ module "load_balancing" {
   health_check_path                     = "/api/"
 }
 
-resource "aws_security_group" "rds_sg" {
-  name        = "${var.rds_security_group_name}-${var.environment_name}"
-  description = "${var.rds_security_group_description}-${var.environment_name}"
-
-  vpc_id = module.vpc.vpc_id
-
-  ingress {
-    from_port = 5432
-    to_port   = 5432
-    protocol  = "tcp"
-
-    cidr_blocks = concat([module.vpc.vpc_cidr_blocks], [
-      "116.105.72.78/32",
-    ])
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-module "rds" {
-  environment_name                = var.environment_name
-  source                          = "../../../modules/rds"
-  allocated_storage               = var.allocated_storage
-  storage_type                    = var.storage_type
-  engine                          = var.engine
-  engine_version                  = var.engine_version
-  instance_class                  = var.instance_class
-  db_name                         = var.db_name
-  username                        = var.username
-  password                        = var.password
-  database_authentication_enabled = var.database_authentication_enabled
-  backup_retention_period         = var.backup_retention_period
-  security_group_ids              = [aws_security_group.rds_sg.id]
-  subnet_ids                      = concat(module.vpc.subnet_ids)
-}
-
 module "cloudwatch_log" {
   source                                = "../../../modules/cloudwatch_log"
   cloudwatch_log_group_name             = var.cloudwatch_log_group_name

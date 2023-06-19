@@ -5,6 +5,11 @@ resource "aws_s3_bucket" "photo_video_bucket" {
   tags = {
     Environment = var.environment_name
   }
+
+  lifecycle {
+    ignore_changes = ["cors_rule"]
+  }
+
 }
 
 #s3 bucket policy
