@@ -271,3 +271,36 @@ variable "lambda_secret" {
   default     = ""
 }
 # End Lambda
+
+# Lambda Update Inventory
+variable "update_inventory_handler_name" {
+  description = "The update inventory handler name."
+  default     = ""
+}
+# End Lambda Update Inventory
+
+# Eventbridge
+variable "eventbridge_rule_name" {
+  description = "The eventbridge rule name."
+  default     = ""
+  type        = string
+}
+
+variable "schedule_expression" {
+  description = "The schedule expression."
+  default     = ""
+  type        = string
+}
+# End Eventbridge
+
+# SQS Update Retailer Inventory
+variable "update_retailer_inventory_sqs_name" {
+  description = "The acknowledge SQS name."
+  default     = ""
+}
+
+variable "update_retailer_inventory_handler_name" {
+  description = "The acknowledge forward handler name."
+  default     = ""
+}
+# End SQS

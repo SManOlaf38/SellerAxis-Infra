@@ -124,3 +124,29 @@ module "lambdas" {
   lambda_secret                         = var.lambda_secret
   api_host                              = "https://${var.domain_name}"
 }
+
+module "lambda_update_inventory" {
+  environment_name                      = var.environment_name
+  update_inventory_handler_name         = var.update_inventory_handler_name
+  source                                = "../../../modules/lambda_update_inventory"
+  api_host                              = "https://api.selleraxis.com/api/v1/inventories/post_sqs"
+}
+
+module "eventbridge_update_inventory" {
+  source                                 = "../../../modules/eventbridge"
+  environment_name                       = var.environment_name
+  eventbridge_rule_name                  = var.eventbridge_rule_name
+  schedule_expression                    = var.schedule_expression
+  lambda_function_arn                    = module.lambda_update_inventory.lambda_function_arn
+  lambda_function_name                   = module.lambda_update_inventory.lambda_function_name
+}
+
+module "lambda_update_retailer_inventory" {
+  environment_name                      = var.environment_name
+  update_retailer_inventory_handler_name         = var.update_retailer_inventory_handler_name
+  source                                = "../../../modules/lambda_update_retailer_inventory"
+  update_retailer_inventory_sqs_name = var.update_retailer_inventory_sqs_name
+  api_host                              = "https://api.selleraxis.com/api/v1/xml_inventory"
+  lambda_secret = "111"
+
+}

@@ -76,3 +76,17 @@ acknowledge_sqs_name = "acknowledge_sqs"
 acknowledge_forward_handler_name = "acknowledge_forward_handler"
 lambda_secret                    = "N6r7SJ4OvMyMR6UraQcIK4Q2ybbgjzj8LDuEAOAmfsG58qSBN4jA9TS8rJCk6yuZ"
 # End Lambda
+
+# Lambda Update Inventory
+update_inventory_handler_name = "update_inventory_handler"
+# End Lambda Update Inventory
+
+# Eventbridge
+eventbridge_rule_name = "update_inventory_eventbridge_rule"
+schedule_expression   = "cron(0 6,18 * * ? *)"
+# End Eventbridge
+
+# SQS Update Retailer Inventory
+update_retailer_inventory_sqs_name = "update_retailer_inventory_sqs"
+update_retailer_inventory_handler_name = "update_retailer_inventory_handler"
+# End SQS Update Retailer Inventory
