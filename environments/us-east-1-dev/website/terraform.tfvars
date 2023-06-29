@@ -1,6 +1,6 @@
 aws_region = "us-east-1"
-aws_access_key = ""
-aws_secret_key = ""
+aws_access_key = "AKIA3JN6HHOXO4IOEZ7T"
+aws_secret_key = "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"
 
 environment_name                    = "dev"
 
@@ -42,24 +42,6 @@ alb_name                      = "selleraxis-alb"
 lb_target_group               = "selleraxis-api-service"
 # End AWS Load balancing
 
-# RDS security group
-rds_security_group_name        = "rds-sg"
-rds_security_group_description = "RDS security group tls"
-# End RDS security group
-
-# RDS
-allocated_storage               = 20
-storage_type                    = "io1"
-engine                          = "postgres"
-engine_version                  = "11.16"
-instance_class                  = "db.t2.micro"
-db_name                         = "selleraxis"
-username                        = "postgres"
-password                        = ""
-database_authentication_enabled = true
-backup_retention_period         = 0
-# End RDS
-
 # ACM Certificate
 domain_name                   = "api.selleraxis.com"
 validation_method             = "DNS"
@@ -94,3 +76,17 @@ acknowledge_sqs_name = "acknowledge_sqs"
 acknowledge_forward_handler_name = "acknowledge_forward_handler"
 lambda_secret                    = "N6r7SJ4OvMyMR6UraQcIK4Q2ybbgjzj8LDuEAOAmfsG58qSBN4jA9TS8rJCk6yuZ"
 # End Lambda
+
+# Lambda Update Inventory
+update_inventory_handler_name = "update_inventory_handler"
+# End Lambda Update Inventory
+
+# Eventbridge
+eventbridge_rule_name = "update_inventory_eventbridge_rule"
+schedule_expression   = "cron(0 6,18 * * ? *)"
+# End Eventbridge
+
+# SQS Update Retailer Inventory
+update_retailer_inventory_sqs_name = "update_retailer_inventory_sqs"
+update_retailer_inventory_handler_name = "update_retailer_inventory_handler"
+# End SQS Update Retailer Inventory
