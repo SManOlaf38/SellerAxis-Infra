@@ -81,6 +81,47 @@ module "load_balancing" {
   health_check_path                     = "/api/"
 }
 
+resource "aws_security_group" "rds_sg" {
+  name        = "${var.rds_security_group_name}-${var.environment_name}"
+  description = "${var.rds_security_group_description}-${var.environment_name}"
+
+  vpc_id = module.vpc.vpc_id
+
+  ingress {
+    from_port = 5432
+    to_port   = 5432
+    protocol  = "tcp"
+
+    cidr_blocks = concat([module.vpc.vpc_cidr_blocks], [
+      "116.105.72.78/32",
+    ])
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+module "rds" {
+  environment_name                = var.environment_name
+  source                          = "../../../modules/rds"
+  allocated_storage               = var.allocated_storage
+  storage_type                    = var.storage_type
+  engine                          = var.engine
+  engine_version                  = var.engine_version
+  instance_class                  = var.instance_class
+  db_name                         = var.db_name
+  username                        = var.username
+  password                        = var.password
+  database_authentication_enabled = var.database_authentication_enabled
+  backup_retention_period         = var.backup_retention_period
+  security_group_ids              = [aws_security_group.rds_sg.id]
+  subnet_ids                      = concat(module.vpc.subnet_ids)
+}
+
 module "cloudwatch_log" {
   source                                = "../../../modules/cloudwatch_log"
   cloudwatch_log_group_name             = var.cloudwatch_log_group_name
@@ -149,4 +190,67 @@ module "lambda_update_retailer_inventory" {
   api_host                              = "https://api.selleraxis.com/api/v1/xml_inventory"
   lambda_secret = "111"
 
+}
+
+# V2
+module "v2_ecs" {
+  environment_name                    = var.environment_name
+  source                              = "../../../modules/ecs"
+  ecs_cluster_name                    = "v2_${var.ecs_cluster_name}"
+}
+
+module "v2_ecr" {
+  environment_name                    = var.environment_name
+  source                              = "../../../modules/ecr"
+  ecr_name                            = "v2_${var.ecr_name}"
+  mutability                          = var.mutability
+  scan_on_push                        = var.scan_on_push
+}
+
+module "v2_acm_certificate" {
+  environment_name                      = var.environment_name
+  source                                = "../../../modules/acm_certificate"
+  domain_name                           = "v2.${var.domain_name}"
+  validation_method                     = var.validation_method
+  create_before_destroy                 = var.create_before_destroy
+}
+
+module "v2_load_balancing" {
+  environment_name                      = var.environment_name
+  source                                = "../../../modules/load_balancing"
+  alb_name                              = "v2-${var.alb_name}"
+  lb_target_group                       = "v2-${var.lb_target_group}"
+  security_group_ids                    = [module.security_group.id]
+  subnet_ids                            = module.vpc.subnet_ids
+  vpc_id                                = module.vpc.vpc_id
+  acm_certificate_arn                   = module.v2_acm_certificate.acm_certificate_arn
+  health_check_path                     = "/api/health"
+}
+
+module "v2_cloudwatch_log" {
+  source                                = "../../../modules/cloudwatch_log"
+  cloudwatch_log_group_name             = "v2_${var.cloudwatch_log_group_name}"
+}
+
+module "v2_ecs_service" {
+  environment_name                            = var.environment_name
+  source                                      = "../../../modules/ecs_service"
+  vpc_id                                      = module.vpc.vpc_id
+  iam_role_arn                                = module.iam_role.iam_role_arn
+  ecs_cluster_id                              = module.v2_ecs.ecs_cluster_id
+  repository_url                              = module.v2_ecr.repository_url
+  aws_lb_target_group_arn                     = module.v2_load_balancing.aws_lb_target_group_arn
+  ecs_service_private_namespace_name          = "v2_${var.ecs_service_private_namespace_name}"
+  ecs_service_private_namespace_description   = "v2_${var.ecs_service_private_namespace_description}"
+  ecs_service_name                            = "v2_${var.ecs_service_name}"
+  container_name                              = "v2_${var.container_name}"
+  container_port                              = var.container_port
+  subnet_ids                                  = module.vpc.subnet_ids
+  security_group_ids                          = [module.security_group.id]
+  aws_region                                  = var.aws_region
+  cloudwatch_log_group_name                   = module.v2_cloudwatch_log.name
+  ecs_cluster_name                            = "v2_${var.ecs_cluster_name}"
+  task_family_name                            = "v2_${var.task_family_name}"
+  ecs_task_policy_name                        = "v2-${var.ecs_task_policy_name}"
+  ecs_task_role_name                          = "v2-${var.ecs_task_role_name}"
 }
