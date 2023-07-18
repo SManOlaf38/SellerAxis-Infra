@@ -3,6 +3,11 @@ variable "environment_name" {
   default     = ""
 }
 
+variable "update_inventory_sqs_name" {
+  description = "The acknowledge SQS name."
+  default     = ""
+}
+
 variable "update_inventory_handler_name" {
   description = "The acknowledge forward handler name."
   default     = ""
@@ -17,4 +22,3 @@ variable "lambda_secret" {
   description = "The lambda secret."
   default     = ""
 }
-

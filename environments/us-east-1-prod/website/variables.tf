@@ -228,11 +228,6 @@ variable "security_group_names" {
 # End RDS
 
 # ACM Certificate
-variable "domain_name_new" {
-  type = string
-  description = "The domain name."
-  default = ""
-}
 variable "domain_name" {
   type        = string
   description = "The domain name."
