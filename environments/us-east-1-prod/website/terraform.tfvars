@@ -2,7 +2,7 @@ aws_region     = "us-east-1"
 aws_access_key = ""
 aws_secret_key = ""
 
-environment_name = "dev"
+environment_name = "prod"
 
 # ECS
 ecs_cluster_name = "selleraxis-backend"
@@ -10,9 +10,9 @@ ecs_cluster_name = "selleraxis-backend"
 
 # VPC
 vpc_name                 = "selleraxis-vpc"
-vpc_cidr_block           = "10.0.0.0/16"
+vpc_cidr_block           = "172.16.0.0/16"
 availability_zones       = ["us-east-1a", "us-east-1b", "us-east-1c"]
-public_subnet_cidr_block = ["10.0.0.0/24", "10.0.1.0/24", "10.0.2.0/24"]
+public_subnet_cidr_block = ["172.16.0.0/24", "172.16.1.0/24", "172.16.2.0/24"]
 # End VPC
 
 # ECR
@@ -65,10 +65,6 @@ domain_name           = "api.selleraxis.com"
 validation_method     = "DNS"
 create_before_destroy = true
 # End ACM Certificate
-
-# New Cert
-domain_name_new           = "api.dev.selleraxis.com"
-# End new cert
 
 # CloudWatch Log
 cloudwatch_log_group_name = "selleraxis/backend-api-service"

@@ -92,7 +92,7 @@ resource "aws_ecs_service" "selleraxis" {
   }
 
   lifecycle {
-    ignore_changes = ["task_definition"]
+    ignore_changes = [task_definition]
   }
 }
 
