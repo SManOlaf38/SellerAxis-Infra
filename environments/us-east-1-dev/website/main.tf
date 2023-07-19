@@ -245,3 +245,7 @@ module "v2_ecs_service" {
   ecs_task_policy_name                      = "v2-${var.ecs_task_policy_name}"
   ecs_task_role_name                        = "v2-${var.ecs_task_role_name}"
 }
+
+module "ses" {
+  source                          = "../../../modules/ses"
+}
