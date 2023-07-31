@@ -30,6 +30,7 @@ resource "aws_iam_role_policy" "task_policy" {
     {
       "Action": [
         "s3:*",
+        "ses:*",
         "sqs:*"
       ],
       "Effect": "Allow",
@@ -37,7 +38,7 @@ resource "aws_iam_role_policy" "task_policy" {
     }
   ]
 }
-  EOF
+EOF
 }
 
 resource "aws_ecs_task_definition" "selleraxis_ecs_task_definition" {
