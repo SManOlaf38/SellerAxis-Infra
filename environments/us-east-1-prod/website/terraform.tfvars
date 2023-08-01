@@ -103,4 +103,9 @@ update_inventory_handler_name = "update_inventory_handler"
 # SQS Update Retailer Inventory
 update_retailer_inventory_sqs_name     = "update_retailer_inventory_sqs"
 update_retailer_inventory_handler_name = "update_retailer_inventory_handler"
+
+# SQS Update individual retailer Inventory
+
+update_individual_retailer_inventory_sqs_name     = "update_individual_retailer_inventory_sqs"
+update_individual_retailer_inventory_handler_name = "update_individual_retailer_inventory_handler"
 # End SQS Update Retailer Inventory

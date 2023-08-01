@@ -93,7 +93,7 @@ resource "aws_security_group" "rds_sg" {
     protocol  = "tcp"
 
     cidr_blocks = concat([module.vpc.vpc_cidr_blocks], [
-      "116.98.61.250/32", "104.28.254.74/32"
+      "116.98.61.250/32", "104.28.254.74/32" 
     ])
   }
 
@@ -175,12 +175,22 @@ module "lambda_update_inventory" {
   lambda_secret                 = "111"
 }
 module "lambda_update_retailer_inventory" {
-  environment_name                       = var.environment_name
-  update_retailer_inventory_handler_name = var.update_retailer_inventory_handler_name
-  source                                 = "../../../modules/lambda_update_retailer_inventory"
-  update_retailer_inventory_sqs_name     = var.update_retailer_inventory_sqs_name
-  api_host                               = "https://${var.domain_name_new}/api/retailers/"
-  lambda_secret                          = "111"
+  environment_name                              = var.environment_name
+  update_retailer_inventory_handler_name        = var.update_retailer_inventory_handler_name
+  source                                        = "../../../modules/lambda_update_retailer_inventory"
+  update_retailer_inventory_sqs_name            = var.update_retailer_inventory_sqs_name
+  update_individual_retailer_inventory_sqs_name = var.update_individual_retailer_inventory_sqs_name
+  api_host                                      = "https://${var.domain_name_new}/api/retailers/"
+  lambda_secret                                 = "111"
+}
+
+module "lambda_update_individual_retailer_inventory" {
+  environment_name                                  = var.environment_name
+  update_individual_retailer_inventory_handler_name = var.update_individual_retailer_inventory_handler_name
+  update_individual_retailer_inventory_sqs_name     = var.update_individual_retailer_inventory_sqs_name
+  source                                            = "../../../modules/lambda_update_individual_retailer_inventory"
+  api_host                                          = "https://${var.domain_name_new}/api/retailers/"
+  lambda_secret                                     = "111"
 }
 
 # V2
@@ -247,5 +257,5 @@ module "v2_ecs_service" {
 }
 
 module "ses" {
-  source                          = "../../../modules/ses"
+  source = "../../../modules/ses"
 }

@@ -24,20 +24,18 @@ resource "aws_iam_role_policy" "update_retailer_inventory_handler_policy" {
 
   policy = <<EOF
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": [
-        "sqs:ReceiveMessage",
-        "sqs:DeleteMessage",
-        "sqs:GetQueueAttributes"
-      ],
-      "Effect": "Allow",
-      "Resource": "*"
-    }
-  ]
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Action": [
+				"sqs:*"
+			],
+			"Effect": "Allow",
+			"Resource": "*"
+		}
+	]
 }
-  EOF
+EOF
 }
 
 resource "aws_sqs_queue" "update_retailer_inventory_sqs" {
@@ -63,6 +61,7 @@ resource "aws_lambda_function" "update_retailer_inventory_handler" {
 
   environment {
     variables = {
+      UPDATE_INDIVIDUAL_RETAILER_INVENTORY_SQS_NAME = "${var.environment_name}-${var.update_individual_retailer_inventory_sqs_name}"
       API_HOST = var.api_host
       LAMBDA_SECRET = var.lambda_secret
     }
