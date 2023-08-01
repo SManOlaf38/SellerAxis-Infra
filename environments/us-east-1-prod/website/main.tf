@@ -179,10 +179,22 @@ module "lambda_update_inventory" {
   lambda_secret                 = "111"
 }
 module "lambda_update_retailer_inventory" {
-  environment_name                       = var.environment_name
-  update_retailer_inventory_handler_name = var.update_retailer_inventory_handler_name
-  source                                 = "../../../modules/lambda_update_retailer_inventory"
-  update_retailer_inventory_sqs_name     = var.update_retailer_inventory_sqs_name
-  api_host                               = "https://${var.domain_name}/api/retailers/"
-  lambda_secret                          = "111"
+  environment_name                              = var.environment_name
+  update_retailer_inventory_handler_name        = var.update_retailer_inventory_handler_name
+  source                                        = "../../../modules/lambda_update_retailer_inventory"
+  update_retailer_inventory_sqs_name            = var.update_retailer_inventory_sqs_name
+  update_individual_retailer_inventory_sqs_name = var.update_individual_retailer_inventory_sqs_name
+}
+
+module "lambda_update_individual_retailer_inventory" {
+  environment_name                                  = var.environment_name
+  update_individual_retailer_inventory_handler_name = var.update_individual_retailer_inventory_handler_name
+  update_individual_retailer_inventory_sqs_name     = var.update_individual_retailer_inventory_sqs_name
+  source                                            = "../../../modules/lambda_update_individual_retailer_inventory"
+  api_host                                          = "https://${var.domain_name}/api/retailers/"
+  lambda_secret                                     = "111"
+}
+
+module "ses" {
+  source                          = "../../../modules/ses"
 }

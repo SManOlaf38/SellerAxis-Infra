@@ -364,4 +364,16 @@ variable "update_retailer_inventory_handler_name" {
   description = "The acknowledge forward handler name."
   default     = ""
 }
+
+# SQS Update individual retailer inventory
+
+variable "update_individual_retailer_inventory_sqs_name" {
+  description = "The acknowledge SQS name."
+  default     = ""
+}
+
+variable "update_individual_retailer_inventory_handler_name" {
+  description = "The acknowledge forward handler name."
+  default     = ""
+}
 # End SQS
