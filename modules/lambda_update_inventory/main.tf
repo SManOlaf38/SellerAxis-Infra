@@ -109,3 +109,14 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
   role       = aws_iam_role.update_inventory_handler_role.name
   policy_arn = aws_iam_policy.update_inventory_handler_logging_policy.arn
 }
+
+resource "aws_cloudwatch_event_rule" "update_inventory_event" {
+  name                = "${var.environment_name}_${var.update_inventory_handler_name}"
+  schedule_expression = "cron(0 8,18 * * ? *)"
+}
+
+resource "aws_cloudwatch_event_target" "update_inventory_sqs" {
+  rule      = aws_cloudwatch_event_rule.update_inventory_event.name
+  target_id = "SendToSQS"
+  arn       = aws_sqs_queue.update_inventory_sqs.arn
+}
