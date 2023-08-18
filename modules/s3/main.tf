@@ -41,7 +41,7 @@ resource "aws_s3_bucket_cors_configuration" "plant_bucket" {
   cors_rule {
     allowed_headers = ["*"]
     allowed_methods = ["GET", "PUT", "POST"]
-    allowed_origins = ["https://selleraxis.com", "https://seller-axis-web-app.vercel.app", "http://localhost:3000", "http://localhost:8080", "https://dev.selleraxis.com", "https://selleraxis.com"]
+    allowed_origins = ["https://selleraxis.com", "https://seller-axis-web-app.vercel.app", "http://localhost:3000", "http://localhost:8080", "https://staging.selleraxis.com", "https://dev.selleraxis.com", "https://selleraxis.com"]
   }
 }
 
