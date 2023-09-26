@@ -354,6 +354,17 @@ variable "update_inventory_handler_name" {
   default     = ""
 }
 
+# SQS product crud
+variable "crud_product_sqs_name" {
+  description = "The product SQS name."
+  default     = ""
+}
+
+variable "trigger_crud_product_quickbook_online_name" {
+  description = "The product forward handler name."
+  default     = ""
+}
+
 # SQS Update Retailer Inventory
 variable "update_retailer_inventory_sqs_name" {
   description = "The acknowledge SQS name."
