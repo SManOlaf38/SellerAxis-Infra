@@ -174,6 +174,14 @@ module "lambda_update_inventory" {
   api_host                      = "https://${var.domain_name_new}/api/product-warehouse-static-data/update-inventory"
   lambda_secret                 = "111"
 }
+module "lambda_trigger_crud_product_quickbook_online" {
+  environment_name                              = var.environment_name
+  trigger_crud_product_quickbook_online_name    = var.trigger_crud_product_quickbook_online_name
+  source                                        = "../../../modules/lambda_trigger_crud_product_quickbook_online"
+  crud_product_sqs_name                         = var.crud_product_sqs_name
+  api_host                                      = "https://${var.domain_name_new}/api/product/quickbook"
+  lambda_secret                                 = "111"
+}
 module "lambda_update_retailer_inventory" {
   environment_name                              = var.environment_name
   update_retailer_inventory_handler_name        = var.update_retailer_inventory_handler_name

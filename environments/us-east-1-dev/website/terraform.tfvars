@@ -104,6 +104,11 @@ update_inventory_sqs_name     = "update_inventory_sqs"
 update_inventory_handler_name = "update_inventory_handler"
 # End SQS Update Inventory
 
+# SQS Crud Product
+crud_product_sqs_name                       = "crud_product_sqs"
+trigger_crud_product_quickbook_online_name  = "trigger_crud_product_quickbook_online"
+# End SQS Crud Product
+
 # SQS Update Retailer Inventory
 update_retailer_inventory_sqs_name     = "update_retailer_inventory_sqs"
 update_retailer_inventory_handler_name = "update_retailer_inventory_handler"
