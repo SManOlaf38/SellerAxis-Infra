@@ -14,7 +14,6 @@ resource "aws_db_instance" "default" {
   iam_database_authentication_enabled     = var.database_authentication_enabled
   skip_final_snapshot                     = "true"
   publicly_accessible                     = "true"
-
   backup_retention_period                 = var.backup_retention_period
   backup_window                           = "07:00-07:30"
   copy_tags_to_snapshot                   = "false"
