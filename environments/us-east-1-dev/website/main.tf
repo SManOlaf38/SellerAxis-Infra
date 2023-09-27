@@ -201,6 +201,15 @@ module "lambda_update_individual_retailer_inventory" {
   lambda_secret                                     = "111"
 }
 
+module "lambda_update_inventory_to_commercehub" {
+  source = "../../../modules/lambda_update_inventory_to_commercehub"
+  environment_name = var.environment_name
+  update_inventory_to_commercehub_handler_name = var.update_inventory_to_commercehub_handler_name
+  update_inventory_to_commercehub_sqs_name = var.update_inventory_to_commercehub_sqs_name
+  api_host = "https://${var.domain_name_new}/api"
+  lambda_secret = "111"
+}
+
 # V2
 module "v2_ecs" {
   environment_name = var.environment_name
