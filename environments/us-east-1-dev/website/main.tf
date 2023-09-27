@@ -179,7 +179,7 @@ module "lambda_trigger_crud_product_quickbook_online" {
   trigger_crud_product_quickbook_online_name    = var.trigger_crud_product_quickbook_online_name
   source                                        = "../../../modules/lambda_trigger_crud_product_quickbook_online"
   crud_product_sqs_name                         = var.crud_product_sqs_name
-  api_host                                      = "https://${var.domain_name_new}/api/product/quickbook"
+  api_host                                      = "https://${var.domain_name_new}/api/products/quickbook"
   lambda_secret                                 = "111"
 }
 module "lambda_update_retailer_inventory" {
