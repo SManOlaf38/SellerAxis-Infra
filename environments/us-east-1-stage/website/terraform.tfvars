@@ -105,6 +105,11 @@ crud_product_sqs_name                       = "qbo_sync_product"
 trigger_crud_product_quickbook_online_name  = "qbo_sync_product"
 # End SQS Crud Product
 
+# SQS Crud Retailer
+crud_retailer_sqs_name                       = "qbo_sync_retailer"
+trigger_crud_retailer_quickbook_online_name  = "qbo_sync_retailer"
+# End SQS Crud Retailer
+
 # SQS Update Retailer Inventory
 update_retailer_inventory_sqs_name     = "update_retailer_inventory_sqs"
 update_retailer_inventory_handler_name = "update_retailer_inventory_handler"
