@@ -354,6 +354,28 @@ variable "update_inventory_handler_name" {
   default     = ""
 }
 
+# SQS product crud
+variable "crud_product_sqs_name" {
+  description = "The product SQS name."
+  default     = ""
+}
+
+variable "trigger_crud_product_quickbook_online_name" {
+  description = "The product forward handler name."
+  default     = ""
+}
+
+# SQS retailer crud
+variable "crud_retailer_sqs_name" {
+  description = "The retailer SQS name."
+  default     = ""
+}
+
+variable "trigger_crud_retailer_quickbook_online_name" {
+  description = "The retailer forward handler name."
+  default     = ""
+}
+
 # SQS Update Retailer Inventory
 variable "update_retailer_inventory_sqs_name" {
   description = "The acknowledge SQS name."
@@ -376,4 +398,15 @@ variable "update_individual_retailer_inventory_handler_name" {
   description = "The acknowledge forward handler name."
   default     = ""
 }
-# End SQS
+
+# SQS Update inventory to commercehub
+
+variable "update_inventory_to_commercehub_sqs_name" {
+  description = "The acknowledge SQS name."
+  default     = ""
+}
+
+variable "update_inventory_to_commercehub_handler_name" {
+  description = "The acknowledge forward handler name."
+  default     = ""
+}
