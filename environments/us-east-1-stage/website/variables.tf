@@ -398,4 +398,15 @@ variable "update_individual_retailer_inventory_handler_name" {
   description = "The acknowledge forward handler name."
   default     = ""
 }
-# End SQS
+
+# SQS Update inventory to commercehub
+
+variable "update_inventory_to_commercehub_sqs_name" {
+  description = "The acknowledge SQS name."
+  default     = ""
+}
+
+variable "update_inventory_to_commercehub_handler_name" {
+  description = "The acknowledge forward handler name."
+  default     = ""
+}

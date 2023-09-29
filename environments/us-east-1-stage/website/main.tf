@@ -183,7 +183,7 @@ module "lambda_trigger_crud_product_quickbook_online" {
   trigger_crud_product_quickbook_online_name    = var.trigger_crud_product_quickbook_online_name
   source                                        = "../../../modules/lambda_trigger_crud_product_quickbook_online"
   crud_product_sqs_name                         = var.crud_product_sqs_name
-  api_host                                      = "https://${var.domain_name_new}/api/products/quickbook"
+  api_host                                      = "https://${var.domain_name}/api/products/quickbook"
   lambda_secret                                 = "111"
 }
 module "lambda_trigger_crud_retailer_quickbook_online" {
@@ -191,7 +191,7 @@ module "lambda_trigger_crud_retailer_quickbook_online" {
   trigger_crud_retailer_quickbook_online_name    = var.trigger_crud_retailer_quickbook_online_name
   source                                        = "../../../modules/lambda_trigger_crud_retailer_quickbook_online"
   crud_retailer_sqs_name                         = var.crud_retailer_sqs_name
-  api_host                                      = "https://${var.domain_name_new}/api/retailers/quickbook"
+  api_host                                      = "https://${var.domain_name}/api/retailers/quickbook"
   lambda_secret                                 = "111"
 }
 module "lambda_update_retailer_inventory" {
@@ -213,6 +213,14 @@ module "lambda_update_individual_retailer_inventory" {
   lambda_secret                                     = "111"
 }
 
+module "lambda_update_inventory_to_commercehub" {
+  source = "../../../modules/lambda_update_inventory_to_commercehub"
+  environment_name = var.environment_name
+  update_inventory_to_commercehub_handler_name = var.update_inventory_to_commercehub_handler_name
+  update_inventory_to_commercehub_sqs_name = var.update_inventory_to_commercehub_sqs_name
+  api_host = "https://${var.domain_name}/api"
+  lambda_secret = "111"
+}
 # module "ses" {
 #   source                          = "../../../modules/ses"
 # }

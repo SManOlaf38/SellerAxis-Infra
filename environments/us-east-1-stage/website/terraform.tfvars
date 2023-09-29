@@ -51,13 +51,13 @@ rds_security_group_description = "RDS security group tls"
 allocated_storage               = 20
 storage_type                    = "io1"
 engine                          = "postgres"
-engine_version                  = "11.16"
+engine_version                  = "11"
 instance_class                  = "db.t2.micro"
 db_name                         = "selleraxis"
 username                        = "postgres"
 password                        = ""
 database_authentication_enabled = true
-backup_retention_period         = 0
+backup_retention_period         = 7
 # End RDS
 
 # ACM Certificate
@@ -119,3 +119,7 @@ update_retailer_inventory_handler_name = "update_retailer_inventory_handler"
 update_individual_retailer_inventory_sqs_name     = "update_individual_retailer_inventory_sqs"
 update_individual_retailer_inventory_handler_name = "update_individual_retailer_inventory_handler"
 # End SQS Update Retailer Inventory
+
+# SQS update inventory to commercehub
+update_inventory_to_commercehub_sqs_name          = "update_inventory_to_commercehub_sqs"
+update_inventory_to_commercehub_handler_name      = "update_inventory_to_commercehub_handler"
