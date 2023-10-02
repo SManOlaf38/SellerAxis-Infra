@@ -222,6 +222,15 @@ module "lambda_update_inventory_to_commercehub" {
   lambda_secret = "111"
 }
 
+module "lambda_qbo_unhandled_data_handler" {
+  source = "../../../modules/lambda_qbo_unhandled_data"
+  environment_name = var.environment_name
+  qbo_unhandled_data_handler_name = var.qbo_unhandled_data_handler_name
+  qbo_unhandled_data_sqs_name = var.qbo_unhandled_data_sqs_name
+  api_host = "https://${var.domain_name}/api"
+  lambda_secret = "111"
+}
+
 #module "ses" {
 #  source                          = "../../../modules/ses"
 #}

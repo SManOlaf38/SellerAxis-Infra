@@ -410,3 +410,13 @@ variable "update_inventory_to_commercehub_handler_name" {
   description = "The acknowledge forward handler name."
   default     = ""
 }
+
+variable "qbo_unhandled_data_sqs_name" {
+  description = "The acknowledge SQS name."
+  default     = ""
+}
+
+variable "qbo_unhandled_data_handler_name" {
+  description = "The acknowledge forward handler name."
+  default     = ""
+}
