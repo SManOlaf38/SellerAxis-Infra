@@ -123,3 +123,7 @@ update_individual_retailer_inventory_handler_name = "update_individual_retailer_
 # SQS update inventory to commercehub
 update_inventory_to_commercehub_sqs_name          = "update_inventory_to_commercehub_sqs"
 update_inventory_to_commercehub_handler_name      = "update_inventory_to_commercehub_handler"
+
+# SQS qbo unhandled data
+qbo_unhandled_data_sqs_name          = "qbo_unhandled_data_sqs"
+qbo_unhandled_data_handler_name      = "qbo_unhandled_data_handler"
