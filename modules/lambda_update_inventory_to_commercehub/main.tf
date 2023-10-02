@@ -77,12 +77,12 @@ resource "aws_lambda_event_source_mapping" "update_inventory_to_commercehub_hand
 }
 
 # Cloudwatch Log
-resource "aws_cloudwatch_log_group" "update_inventory_handler" {
+resource "aws_cloudwatch_log_group" "update_inventory_to_commercehub_handler" {
   name              = "/aws/lambda/${var.environment_name}_${var.update_inventory_to_commercehub_handler_name}"
   retention_in_days = 14
 }
 
-resource "aws_iam_policy" "update_inventory_handler_logging_policy" {
+resource "aws_iam_policy" "update_inventory_to_commercehub_handler_logging_policy" {
   name        = "${var.environment_name}-LoggingPolicy-${var.update_inventory_to_commercehub_handler_name}"
   path        = "/"
   description = "IAM policy for logging from a lambda"
@@ -107,5 +107,5 @@ EOF
 
 resource "aws_iam_role_policy_attachment" "lambda_logs" {
   role       = aws_iam_role.update_inventory_to_commercehub_handler_role.name
-  policy_arn = aws_iam_policy.update_inventory_handler_logging_policy.arn
+  policy_arn = aws_iam_policy.update_inventory_to_commercehub_handler_logging_policy.arn
 }
