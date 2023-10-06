@@ -54,7 +54,7 @@ data "archive_file" "qbo_unhandled_data_handler" {
 }
 
 resource "aws_lambda_function" "qbo_unhandled_data_handler" {
-  filename                       = "${path.module}/../../lambdas/update_inventory_to_commercehub_handler.zip"
+  filename                       = "${path.module}/../../lambdas/qbo_unhandled_data_handler.zip"
   function_name                  = "${var.environment_name}_${var.qbo_unhandled_data_handler_name}"
   role                           = aws_iam_role.qbo_unhandled_data_role.arn
   handler                        = "main.lambda_handler"

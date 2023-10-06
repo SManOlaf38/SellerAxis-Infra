@@ -93,7 +93,7 @@ resource "aws_security_group" "rds_sg" {
     protocol  = "tcp"
 
     cidr_blocks = concat([module.vpc.vpc_cidr_blocks], [
-      "116.105.78.80/32"
+      "116.105.160.17/32"
     ])
   }
 
