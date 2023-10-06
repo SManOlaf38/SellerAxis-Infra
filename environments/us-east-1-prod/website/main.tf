@@ -58,9 +58,7 @@ resource "aws_security_group" "rds_sg" {
     to_port   = 5432
     protocol  = "tcp"
 
-    cidr_blocks = concat([module.vpc.vpc_cidr_blocks], [
-      "116.98.61.250/32", "104.28.254.74/32"
-    ])
+    cidr_blocks = [module.vpc.vpc_cidr_blocks]
   }
 
   egress {
