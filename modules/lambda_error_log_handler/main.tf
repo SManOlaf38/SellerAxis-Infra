@@ -106,7 +106,7 @@ resource "aws_cloudwatch_log_subscription_filter" "error_log_filter" {
   depends_on      = [aws_lambda_permission.aws_lambda_permission_cloudwatch]
   name            = "error_log_stream_filter"
   log_group_name  = var.cloudwatch_log_name
-  filter_pattern  = "?ERROR ?Exception ?Error"
+  filter_pattern  = "?ERROR ?Exception ?Error ?error ?exception"
   destination_arn = aws_lambda_function.error_log_handler.arn
   distribution    = "ByLogStream"
 }
