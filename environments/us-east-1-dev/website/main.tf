@@ -93,7 +93,7 @@ resource "aws_security_group" "rds_sg" {
     protocol  = "tcp"
 
     cidr_blocks = concat([module.vpc.vpc_cidr_blocks], [
-      "116.105.160.17/32"
+      "0.0.0.0/0"
     ])
   }
 
@@ -292,4 +292,14 @@ module "v2_ecs_service" {
 
 module "ses" {
   source = "../../../modules/ses"
+}
+
+module "lambda_error_log_handler" {
+  source              = "../../../modules/lambda_error_log_handler"
+  environment_name    = var.environment_name
+  lambda_name         = var.error_log_handler_name
+  slack_webhook_host  = var.slack_webhook_host
+  cloudwatch_log_name = module.v2_cloudwatch_log.name
+  cloudwatch_log_arn  = module.v2_cloudwatch_log.arn
+  aws_region          = var.aws_region
 }

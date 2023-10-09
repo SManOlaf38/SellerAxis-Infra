@@ -127,3 +127,7 @@ update_inventory_to_commercehub_handler_name      = "update_inventory_to_commerc
 # SQS qbo unhandled data
 qbo_unhandled_data_sqs_name          = "qbo_unhandled_data_sqs"
 qbo_unhandled_data_handler_name      = "qbo_unhandled_data_handler"
+
+# Lambda error log handler
+error_log_handler_name = "error_log_handler"
+slack_webhook_host     = "https://hooks.slack.com/services/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"
