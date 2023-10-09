@@ -231,3 +231,13 @@ module "lambda_qbo_unhandled_data_handler" {
 # module "ses" {
 #   source                          = "../../../modules/ses"
 # }
+
+module "lambda_error_log_handler" {
+  source              = "../../../modules/lambda_error_log_handler"
+  environment_name    = var.environment_name
+  lambda_name         = var.error_log_handler_name
+  slack_webhook_host  = var.slack_webhook_host
+  cloudwatch_log_name = module.cloudwatch_log.name
+  cloudwatch_log_arn  = module.cloudwatch_log.arn
+  aws_region          = var.aws_region
+}

@@ -425,3 +425,14 @@ variable "qbo_unhandled_data_handler_name" {
   description = "The acknowledge forward handler name."
   default     = ""
 }
+
+# Lambda error log handler
+variable "error_log_handler_name" {
+  description = "Error log handler name."
+  default     = ""
+}
+
+variable "slack_webhook_host" {
+  description = "Slack webhook host."
+  default     = ""
+}

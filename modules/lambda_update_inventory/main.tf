@@ -113,6 +113,7 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
 resource "aws_cloudwatch_event_rule" "update_inventory_event" {
   name                = "${var.environment_name}_${var.update_inventory_handler_name}"
   schedule_expression = "cron(0 8,18 * * ? *)"
+  is_enabled          = false
 }
 
 resource "aws_cloudwatch_event_target" "update_inventory_sqs" {
