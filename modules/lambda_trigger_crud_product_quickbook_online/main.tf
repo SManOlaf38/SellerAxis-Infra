@@ -59,7 +59,8 @@ resource "aws_lambda_function" "trigger_crud_product_quickbook_online" {
   role                           = aws_iam_role.trigger_crud_product_quickbook_online_role.arn
   handler                        = "main.lambda_handler"
   runtime                        = "python3.9"
-  source_code_hash = data.archive_file.trigger_crud_product_quickbook_online.output_base64sha256
+  source_code_hash               = data.archive_file.trigger_crud_product_quickbook_online.output_base64sha256
+  timeout                        = 60
 
   environment {
     variables = {
