@@ -135,3 +135,8 @@ qbo_unhandled_data_handler_name      = "qbo_unhandled_data_handler"
 # Lambda error log handler
 error_log_handler_name = "error_log_handler"
 slack_webhook_host     = "https://hooks.slack.com/services/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"
+
+# Lambda get new order
+get_new_order_handle_name  = "get_new_order_lambda"
+get_new_order_name         = "schedule_get_new_order_four_times_a_day"
+trigger_get_new_order_name = "call_lambda_get_new_order_trigger"

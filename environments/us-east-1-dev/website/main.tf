@@ -303,3 +303,13 @@ module "lambda_error_log_handler" {
   cloudwatch_log_arn  = module.v2_cloudwatch_log.arn
   aws_region          = var.aws_region
 }
+
+module "get_new_order_handler" {
+  source                     = "../../../modules/schedule_getting_order"
+  environment_name           = var.environment_name
+  get_new_order_handle_name  = var.get_new_order_handle_name
+  get_new_order_name         = var.get_new_order_name
+  trigger_get_new_order_name = var.trigger_get_new_order_name
+  api_host                   = "https://${var.domain_name_new}/api/retailer-purchase-orders/import-by-group-retailers"
+  lambda_secret              = var.lambda_secret
+}

@@ -436,3 +436,20 @@ variable "slack_webhook_host" {
   description = "Slack webhook host."
   default     = ""
 }
+
+# Schedule get new order
+variable "get_new_order_handle_name" {
+	description = "The acknowledge forward handler name."
+  default     = ""
+}
+
+variable "get_new_order_name" {
+	description = "The acknowledge retailer getting order name."
+  default     = ""
+}
+
+variable "trigger_get_new_order_name" {
+	description = "The acknowledge trigger retailer getting order name."
+  default     = ""
+}
+# End schedule get new order
