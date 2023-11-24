@@ -110,14 +110,3 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
   role       = aws_iam_role.trigger_crud_retailer_quickbook_online_role.name
   policy_arn = aws_iam_policy.trigger_crud_retailer_quickbook_online_logging_policy.arn
 }
-
-resource "aws_cloudwatch_event_rule" "update_inventory_event" {
-  name                = "${var.environment_name}_${var.trigger_crud_retailer_quickbook_online_name}"
-  schedule_expression = "cron(0 8,18 * * ? *)"
-}
-
-resource "aws_cloudwatch_event_target" "crud_retailer_sqs" {
-  rule      = aws_cloudwatch_event_rule.update_inventory_event.name
-  target_id = "SendToSQS"
-  arn       = aws_sqs_queue.crud_retailer_sqs.arn
-}
