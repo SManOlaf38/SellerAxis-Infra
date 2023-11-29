@@ -172,7 +172,7 @@ module "lambda_update_inventory" {
   source                        = "../../../modules/lambda_update_inventory"
   update_inventory_sqs_name     = var.update_inventory_sqs_name
   api_host                      = "https://${var.domain_name_new}/api/product-warehouse-static-data/update-inventory"
-  lambda_secret                 = "111"
+  lambda_secret                 = var.dev_lambda_secret
 }
 module "lambda_trigger_crud_product_quickbook_online" {
   environment_name                              = var.environment_name
@@ -180,7 +180,7 @@ module "lambda_trigger_crud_product_quickbook_online" {
   source                                        = "../../../modules/lambda_trigger_crud_product_quickbook_online"
   crud_product_sqs_name                         = var.crud_product_sqs_name
   api_host                                      = "https://${var.domain_name_new}/api/products/quickbook"
-  lambda_secret                                 = "111"
+  lambda_secret                                 = var.dev_lambda_secret
 }
 module "lambda_trigger_crud_retailer_quickbook_online" {
   environment_name                              = var.environment_name
@@ -188,7 +188,7 @@ module "lambda_trigger_crud_retailer_quickbook_online" {
   source                                        = "../../../modules/lambda_trigger_crud_retailer_quickbook_online"
   crud_retailer_sqs_name                         = var.crud_retailer_sqs_name
   api_host                                      = "https://${var.domain_name_new}/api/retailers/quickbook"
-  lambda_secret                                 = "111"
+  lambda_secret                                 = var.dev_lambda_secret
 }
 module "lambda_update_retailer_inventory" {
   environment_name                              = var.environment_name
@@ -197,7 +197,7 @@ module "lambda_update_retailer_inventory" {
   update_retailer_inventory_sqs_name            = var.update_retailer_inventory_sqs_name
   update_individual_retailer_inventory_sqs_name = var.update_individual_retailer_inventory_sqs_name
   api_host                                      = "https://${var.domain_name_new}/api/retailers/"
-  lambda_secret                                 = "111"
+  lambda_secret                                 = var.dev_lambda_secret
 }
 
 module "lambda_update_individual_retailer_inventory" {
@@ -206,7 +206,7 @@ module "lambda_update_individual_retailer_inventory" {
   update_individual_retailer_inventory_sqs_name     = var.update_individual_retailer_inventory_sqs_name
   source                                            = "../../../modules/lambda_update_individual_retailer_inventory"
   api_host                                          = "https://${var.domain_name_new}/api/retailers/"
-  lambda_secret                                     = "111"
+  lambda_secret                                     = var.dev_lambda_secret
 }
 
 module "lambda_update_inventory_to_commercehub" {
@@ -215,7 +215,7 @@ module "lambda_update_inventory_to_commercehub" {
   update_inventory_to_commercehub_handler_name = var.update_inventory_to_commercehub_handler_name
   update_inventory_to_commercehub_sqs_name = var.update_inventory_to_commercehub_sqs_name
   api_host = "https://${var.domain_name_new}/api"
-  lambda_secret = "111"
+  lambda_secret = var.dev_lambda_secret
 }
 
 module "lambda_qbo_unhandled_data_handler" {
@@ -224,7 +224,7 @@ module "lambda_qbo_unhandled_data_handler" {
   qbo_unhandled_data_handler_name = var.qbo_unhandled_data_handler_name
   qbo_unhandled_data_sqs_name = var.qbo_unhandled_data_sqs_name
   api_host = "https://${var.domain_name_new}/api"
-  lambda_secret = "111"
+  lambda_secret = var.dev_lambda_secret
 }
 
 # V2
@@ -311,5 +311,5 @@ module "get_new_order_handler" {
   get_new_order_name         = var.get_new_order_name
   trigger_get_new_order_name = var.trigger_get_new_order_name
   api_host                   = "https://${var.domain_name_new}/api/retailer-purchase-orders/import-by-group-retailers"
-  lambda_secret              = var.lambda_secret
+  lambda_secret              = var.dev_lambda_secret
 }

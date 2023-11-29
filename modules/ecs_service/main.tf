@@ -31,7 +31,8 @@ resource "aws_iam_role_policy" "task_policy" {
       "Action": [
         "s3:*",
         "ses:*",
-        "sqs:*"
+        "sqs:*",
+        "events:DescribeRule"
       ],
       "Effect": "Allow",
       "Resource": "*"
