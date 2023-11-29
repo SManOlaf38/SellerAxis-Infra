@@ -346,6 +346,11 @@ variable "lambda_secret" {
   description = "The lambda secret."
   default     = ""
 }
+
+variable "dev_lambda_secret" {
+  description = "The dev lambda secret."
+  default     = ""
+}
 # End Lambda
 
 # SQS Update Inventory

@@ -97,6 +97,7 @@ acknowledge_sqs_name = "acknowledge_sqs"
 # Lambda
 acknowledge_forward_handler_name = "acknowledge_forward_handler"
 lambda_secret                    = "N6r7SJ4OvMyMR6UraQcIK4Q2ybbgjzj8LDuEAOAmfsG58qSBN4jA9TS8rJCk6yuZ"
+dev_lambda_secret                = "111"
 # End Lambda
 
 # SQS Update Inventory
