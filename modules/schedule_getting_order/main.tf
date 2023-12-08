@@ -18,6 +18,42 @@ resource "aws_iam_role" "get_new_order_role" {
 EOF
 }
 
+resource "aws_iam_role_policy" "retailer_getting_order_policy" {
+  name = "${var.environment_name}-${var.retailer_getting_order_sqs_name}-policy"
+  role = aws_iam_role.get_new_order_role.id
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "sqs:DeleteMessage",
+        "sqs:GetQueueUrl",
+        "sqs:ChangeMessageVisibility",
+        "sqs:DeleteMessageBatch",
+        "sqs:SendMessageBatch",
+        "sqs:ReceiveMessage",
+        "sqs:SendMessage",
+        "sqs:GetQueueAttributes",
+        "sqs:ChangeMessageVisibilityBatch",
+        "sqs:ListQueues"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+  EOF
+}
+
+resource "aws_sqs_queue" "retailer_getting_order_sqs" {
+  name = "${var.environment_name}-${var.retailer_getting_order_sqs_name}"
+  tags = {
+    Environment = var.environment_name
+  }
+}
+
 data "archive_file" "get_new_order" {
   type        = "zip"
   source_dir  = "${path.module}/../../lambdas/get_new_order_handle"

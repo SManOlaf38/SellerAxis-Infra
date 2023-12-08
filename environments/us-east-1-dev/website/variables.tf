@@ -457,4 +457,9 @@ variable "trigger_get_new_order_name" {
 	description = "The acknowledge trigger retailer getting order name."
   default     = ""
 }
+
+variable "retailer_getting_order_sqs_name" {
+  description = "The acknowledge retailer getting order sqs name."
+  default     = ""
+}
 # End schedule get new order

@@ -27,3 +27,8 @@ variable "lambda_secret" {
 	description = "The acknowledge lambda secret."
   default     = ""
 }
+
+variable "retailer_getting_order_sqs_name" {
+  description = "The name of sqs"
+  default     = ""
+}
