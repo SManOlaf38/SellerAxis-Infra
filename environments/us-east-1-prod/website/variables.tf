@@ -453,6 +453,22 @@ variable "health_check_fail_sns_name" {
   default     = ""
 }
 
+# Lambda billing alert handler
+variable "billing_alert_handler_name" {
+  description = "Health check fail handler name."
+  default     = ""
+}
+
+variable "billing_alert_alarm_metric_name" {
+  description = "The alarm metric name."
+  default     = ""
+}
+
+variable "billing_alert_sns_name" {
+  description = "The health check fail SNS name."
+  default     = ""
+}
+
 # Schedule get new order
 variable "get_new_order_handle_name" {
 	description = "The acknowledge forward handler name."
