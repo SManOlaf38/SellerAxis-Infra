@@ -138,6 +138,11 @@ health_check_fail_handler_name = "health_check_fail_handler"
 alarm_metric_name              = "health_check_fail_metric"
 health_check_fail_sns_name     = "health_check_fail_topic"
 
+# Lambda billing alert handler
+billing_alert_handler_name      = "billing_alert_handler"
+billing_alert_alarm_metric_name = "billing_alert_metric"
+billing_alert_sns_name          = "billing_alert_topic"
+
 # Lambda get new order
 get_new_order_handle_name       = "get_new_order_lambda"
 get_new_order_name              = "schedule_get_new_order_four_times_a_day"

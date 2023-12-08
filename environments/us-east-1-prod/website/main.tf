@@ -255,6 +255,16 @@ module "lambda_health_check_fail_handler" {
   lb_arn_suffix           = module.load_balancing.lb_arn_suffix
 }
 
+module "lambda_billing_alert_handler" {
+  source                  = "../../../modules/lambda_billing_alert_handler"
+  environment_name        = var.environment_name
+  lambda_name             = var.billing_alert_handler_name
+  slack_webhook_host      = var.slack_webhook_host
+  aws_region              = var.aws_region
+  alarm_metric_name       = var.billing_alert_alarm_metric_name
+  sns_name                = var.billing_alert_sns_name
+}
+
 # Schedule retailer getting new order
 module "get_new_order_handler" {
   source                          = "../../../modules/schedule_getting_order"
