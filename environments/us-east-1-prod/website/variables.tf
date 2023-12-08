@@ -341,6 +341,11 @@ variable "lambda_secret" {
   description = "The lambda secret."
   default     = ""
 }
+
+variable "prod_lambda_secret" {
+  description = "The lambda secret."
+  default     = ""
+}
 # End Lambda
 
 # SQS Update Inventory
@@ -431,3 +436,25 @@ variable "slack_webhook_host" {
   description = "Slack webhook host."
   default     = ""
 }
+
+# Schedule get new order
+variable "get_new_order_handle_name" {
+	description = "The acknowledge forward handler name."
+  default     = ""
+}
+
+variable "get_new_order_name" {
+	description = "The acknowledge retailer getting order name."
+  default     = ""
+}
+
+variable "trigger_get_new_order_name" {
+	description = "The acknowledge trigger retailer getting order name."
+  default     = ""
+}
+
+variable "retailer_getting_order_sqs_name" {
+  description = "The acknowledge retailer getting order sqs name."
+  default     = ""
+}
+# End schedule get new order
