@@ -242,6 +242,18 @@ module "lambda_error_log_handler" {
   aws_region          = var.aws_region
 }
 
+module "lambda_health_check_fail_handler" {
+  source                  = "../../../modules/lambda_health_check_fail_handler"
+  environment_name        = var.environment_name
+  lambda_name             = var.health_check_fail_handler_name
+  slack_webhook_host      = var.slack_webhook_host
+  aws_region              = var.aws_region
+  alarm_metric_name       = var.alarm_metric_name
+  sns_name                = var.health_check_fail_sns_name
+  target_group_arn_suffix = module.load_balancing.target_group_arn_suffix
+  lb_arn_suffix           = module.load_balancing.lb_arn_suffix
+}
+
 module "get_new_order_handler" {
   source                          = "../../../modules/schedule_getting_order"
   environment_name                = var.environment_name

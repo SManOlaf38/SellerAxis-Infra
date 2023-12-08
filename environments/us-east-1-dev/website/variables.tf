@@ -442,6 +442,22 @@ variable "slack_webhook_host" {
   default     = ""
 }
 
+# Lambda health check fail handler
+variable "health_check_fail_handler_name" {
+  description = "Health check fail handler name."
+  default     = ""
+}
+
+variable "alarm_metric_name" {
+  description = "The alarm metric name."
+  default     = ""
+}
+
+variable "health_check_fail_sns_name" {
+  description = "The health check fail SNS name."
+  default     = ""
+}
+
 # Schedule get new order
 variable "get_new_order_handle_name" {
 	description = "The acknowledge forward handler name."
