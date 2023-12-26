@@ -479,3 +479,9 @@ variable "retailer_getting_order_sqs_name" {
   default     = ""
 }
 # End schedule get new order
+
+# Lambda system history
+variable "system_history_name" {
+  description = "System history prefix"
+  default     = ""
+}

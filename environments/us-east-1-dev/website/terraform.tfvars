@@ -147,3 +147,6 @@ get_new_order_handle_name       = "get_new_order_lambda"
 get_new_order_name              = "schedule_get_new_order_four_times_a_day"
 trigger_get_new_order_name      = "call_lambda_get_new_order_trigger"
 retailer_getting_order_sqs_name = "retailer_getting_order_sqs"
+
+# Lambda system history
+system_history_name       = "system-history"
