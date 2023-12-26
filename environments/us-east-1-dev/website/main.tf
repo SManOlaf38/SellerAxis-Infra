@@ -326,3 +326,9 @@ module "get_new_order_handler" {
   lambda_secret                   = var.dev_lambda_secret
   retailer_getting_order_sqs_name = var.retailer_getting_order_sqs_name
 }
+
+module "lambda_system_history" {
+  environment_name                              = var.environment_name
+  system_history_name                           = var.system_history_name
+  source                                        = "../../../modules/lambda_system_history"
+}
