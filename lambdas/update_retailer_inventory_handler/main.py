@@ -10,6 +10,7 @@ import boto3
 def lambda_handler(event: Dict[str, Any], context):
     sqs_name = os.environ['UPDATE_INDIVIDUAL_RETAILER_INVENTORY_SQS_NAME']
     host = os.environ['API_HOST']
+    secret_key = os.environ['LAMBDA_SECRET']
     print(f"{sqs_name=}")
     sqs = boto3.client('sqs')
     queue_url = sqs.get_queue_url(QueueName=sqs_name)['QueueUrl']
@@ -19,7 +20,7 @@ def lambda_handler(event: Dict[str, Any], context):
         if len(retailer_ids)==1:
             retailer_id = retailer_ids[0]
             http = urllib3.PoolManager()
-            response = http.request("GET", host + retailer_id + "/inventory-xml", headers={"Content-Type": "application/json"})
+            response = http.request("GET", host + retailer_id + "/inventory-xml", headers={"Content-Type": "application/json", "Authorization": str(secret_key)})
             print("Response data:", response.data)
             print("Response status:", response.status) 
         else:
