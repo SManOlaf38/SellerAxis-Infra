@@ -8,6 +8,7 @@ import json
 def lambda_handler(event: Dict[str, Any], context):
     host = os.environ['API_HOST']
     # rent("Response:", response.data)
+    secret_key = os.environ['LAMBDA_SECRET']
     for record in event['Records']:
         print(record)
         try:
@@ -20,10 +21,10 @@ def lambda_handler(event: Dict[str, Any], context):
             
         if trigger_all:
             http = urllib3.PoolManager()
-            response = http.request("GET", host, headers={"Content-Type": "application/json"})
+            response = http.request("GET", host, headers={"Content-Type": "application/json", "Authorization": str(secret_key)})
         else:
             http = urllib3.PoolManager()
-            response = http.request("GET", host + "?product_warehouse_static_ids=" + record["body"], headers={"Content-Type": "application/json"})
+            response = http.request("GET", host + "?product_warehouse_static_ids=" + record["body"], headers={"Content-Type": "application/json", "Authorization": str(secret_key)})
             
         print("Response data:", response.data)
         print("Response status:", response.status)

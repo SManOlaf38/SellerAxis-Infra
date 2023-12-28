@@ -9,7 +9,7 @@ import boto3
 
 def lambda_handler(event: Dict[str, Any], context):
     host = os.environ['API_HOST']
-    
+    secret_key = os.environ['LAMBDA_SECRET']
     print("lambda called")
     print(f"{event=}")
     print(f"{host=}")
@@ -19,6 +19,6 @@ def lambda_handler(event: Dict[str, Any], context):
         print(record)
         retailer_id = record["body"]
         http = urllib3.PoolManager()
-        response = http.request("GET", host + retailer_id + "/inventory-xml", headers={"Content-Type": "application/json"})
+        response = http.request("GET", host + retailer_id + "/inventory-xml", headers={"Content-Type": "application/json", "Authorization": str(secret_key)})
         print("Response data:", response.data)
         print("Response status:", response.status)
