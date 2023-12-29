@@ -47,8 +47,19 @@ resource "aws_iam_role_policy" "retailer_getting_order_policy" {
   EOF
 }
 
+resource "aws_sqs_queue" "failure_retailer_getting_order_sqs" {
+  name = "${var.environment_name}-failure-${var.retailer_getting_order_sqs_name}"
+  tags = {
+    Environment = var.environment_name
+  }
+}
+
 resource "aws_sqs_queue" "retailer_getting_order_sqs" {
   name = "${var.environment_name}-${var.retailer_getting_order_sqs_name}"
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.failure_retailer_getting_order_sqs.arn,
+    maxReceiveCount     = 3
+  })
   tags = {
     Environment = var.environment_name
   }

@@ -40,8 +40,19 @@ resource "aws_iam_role_policy" "update_inventory_to_commercehub_handler_policy" 
   EOF
 }
 
+resource "aws_sqs_queue" "failure_update_inventory_to_commercehub_sqs" {
+  name = "${var.environment_name}-failure-${var.update_inventory_to_commercehub_sqs_name}"
+  tags = {
+    Environment = var.environment_name
+  }
+}
+
 resource "aws_sqs_queue" "update_inventory_to_commercehub_sqs" {
   name = "${var.environment_name}-${var.update_inventory_to_commercehub_sqs_name}"
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.failure_update_inventory_to_commercehub_sqs.arn,
+    maxReceiveCount     = 3
+  })
   tags = {
     Environment = var.environment_name
   }
