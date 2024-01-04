@@ -16,12 +16,6 @@ terraform {
   }
 }
 
-module "ecs" {
-  environment_name = var.environment_name
-  source           = "../../../modules/ecs"
-  ecs_cluster_name = var.ecs_cluster_name
-}
-
 module "vpc" {
   environment_name         = var.environment_name
   source                   = "../../../modules/vpc"
@@ -29,14 +23,6 @@ module "vpc" {
   vpc_cidr_block           = var.vpc_cidr_block
   availability_zones       = var.availability_zones
   public_subnet_cidr_block = var.public_subnet_cidr_block
-}
-
-module "ecr" {
-  environment_name = var.environment_name
-  source           = "../../../modules/ecr"
-  ecr_name         = var.ecr_name
-  mutability       = var.mutability
-  scan_on_push     = var.scan_on_push
 }
 
 module "iam_role" {
@@ -59,26 +45,6 @@ module "security_group" {
   security_group_https_cidr_blocks      = var.security_group_https_cidr_blocks
   security_group_https_ipv6_cidr_blocks = var.security_group_https_ipv6_cidr_blocks
   security_group_ssh_cidr_blocks        = var.security_group_ssh_cidr_blocks
-}
-
-module "acm_certificate" {
-  environment_name      = var.environment_name
-  source                = "../../../modules/acm_certificate"
-  domain_name           = var.domain_name
-  validation_method     = var.validation_method
-  create_before_destroy = var.create_before_destroy
-}
-
-module "load_balancing" {
-  environment_name    = var.environment_name
-  source              = "../../../modules/load_balancing"
-  alb_name            = var.alb_name
-  lb_target_group     = var.lb_target_group
-  security_group_ids  = [module.security_group.id]
-  subnet_ids          = module.vpc.subnet_ids
-  vpc_id              = module.vpc.vpc_id
-  acm_certificate_arn = module.acm_certificate.acm_certificate_arn
-  health_check_path   = "/api/"
 }
 
 resource "aws_security_group" "rds_sg" {
@@ -122,9 +88,44 @@ module "rds" {
   subnet_ids                      = concat(module.vpc.subnet_ids)
 }
 
+module "ecs" {
+  environment_name = var.environment_name
+  source           = "../../../modules/ecs"
+  ecs_cluster_name = var.ecs_cluster_name
+}
+
+module "ecr" {
+  environment_name = var.environment_name
+  source           = "../../../modules/ecr"
+  ecr_name         = var.ecr_name
+  mutability       = var.mutability
+  scan_on_push     = var.scan_on_push
+}
+
+module "acm_certificate" {
+  environment_name      = var.environment_name
+  source                = "../../../modules/acm_certificate"
+  domain_name           = var.domain_name
+  validation_method     = var.validation_method
+  create_before_destroy = var.create_before_destroy
+}
+
+module "load_balancing" {
+  environment_name    = var.environment_name
+  source              = "../../../modules/load_balancing"
+  alb_name            = var.alb_name
+  lb_target_group     = var.lb_target_group
+  security_group_ids  = [module.security_group.id]
+  subnet_ids          = module.vpc.subnet_ids
+  vpc_id              = module.vpc.vpc_id
+  acm_certificate_arn = module.acm_certificate.acm_certificate_arn
+  health_check_path   = "/api/health"
+}
+
 module "cloudwatch_log" {
   source                    = "../../../modules/cloudwatch_log"
   cloudwatch_log_group_name = var.cloudwatch_log_group_name
+  environment_name          = var.environment_name
 }
 
 module "ecs_service" {
@@ -163,7 +164,7 @@ module "lambdas" {
   acknowledge_forward_handler_name = var.acknowledge_forward_handler_name
   acknowledge_sqs_name             = var.acknowledge_sqs_name
   lambda_secret                    = var.lambda_secret
-  api_host                         = "https://${var.domain_name_new}"
+  api_host                         = "https://${var.domain_name}"
 }
 
 module "lambda_update_inventory" {
@@ -171,7 +172,7 @@ module "lambda_update_inventory" {
   update_inventory_handler_name = var.update_inventory_handler_name
   source                        = "../../../modules/lambda_update_inventory"
   update_inventory_sqs_name     = var.update_inventory_sqs_name
-  api_host                      = "https://${var.domain_name_new}/api/product-warehouse-static-data/update-inventory"
+  api_host                      = "https://${var.domain_name}/api/product-warehouse-static-data/update-inventory"
   lambda_secret                 = var.dev_lambda_secret
 }
 module "lambda_trigger_crud_product_quickbook_online" {
@@ -179,7 +180,7 @@ module "lambda_trigger_crud_product_quickbook_online" {
   trigger_crud_product_quickbook_online_name    = var.trigger_crud_product_quickbook_online_name
   source                                        = "../../../modules/lambda_trigger_crud_product_quickbook_online"
   crud_product_sqs_name                         = var.crud_product_sqs_name
-  api_host                                      = "https://${var.domain_name_new}/api/products/quickbook"
+  api_host                                      = "https://${var.domain_name}/api/products/quickbook"
   lambda_secret                                 = var.dev_lambda_secret
 }
 module "lambda_trigger_crud_retailer_quickbook_online" {
@@ -187,7 +188,7 @@ module "lambda_trigger_crud_retailer_quickbook_online" {
   trigger_crud_retailer_quickbook_online_name    = var.trigger_crud_retailer_quickbook_online_name
   source                                        = "../../../modules/lambda_trigger_crud_retailer_quickbook_online"
   crud_retailer_sqs_name                         = var.crud_retailer_sqs_name
-  api_host                                      = "https://${var.domain_name_new}/api/retailers/quickbook"
+  api_host                                      = "https://${var.domain_name}/api/retailers/quickbook"
   lambda_secret                                 = var.dev_lambda_secret
 }
 module "lambda_update_retailer_inventory" {
@@ -196,7 +197,7 @@ module "lambda_update_retailer_inventory" {
   source                                        = "../../../modules/lambda_update_retailer_inventory"
   update_retailer_inventory_sqs_name            = var.update_retailer_inventory_sqs_name
   update_individual_retailer_inventory_sqs_name = var.update_individual_retailer_inventory_sqs_name
-  api_host                                      = "https://${var.domain_name_new}/api/retailers/"
+  api_host                                      = "https://${var.domain_name}/api/retailers/"
   lambda_secret                                 = var.dev_lambda_secret
 }
 
@@ -205,7 +206,7 @@ module "lambda_update_individual_retailer_inventory" {
   update_individual_retailer_inventory_handler_name = var.update_individual_retailer_inventory_handler_name
   update_individual_retailer_inventory_sqs_name     = var.update_individual_retailer_inventory_sqs_name
   source                                            = "../../../modules/lambda_update_individual_retailer_inventory"
-  api_host                                          = "https://${var.domain_name_new}/api/retailers/"
+  api_host                                          = "https://${var.domain_name}/api/retailers/"
   lambda_secret                                     = var.dev_lambda_secret
 }
 
@@ -214,7 +215,7 @@ module "lambda_update_inventory_to_commercehub" {
   environment_name = var.environment_name
   update_inventory_to_commercehub_handler_name = var.update_inventory_to_commercehub_handler_name
   update_inventory_to_commercehub_sqs_name = var.update_inventory_to_commercehub_sqs_name
-  api_host = "https://${var.domain_name_new}/api"
+  api_host = "https://${var.domain_name}/api"
   lambda_secret = var.dev_lambda_secret
 }
 
@@ -223,71 +224,8 @@ module "lambda_qbo_unhandled_data_handler" {
   environment_name = var.environment_name
   qbo_unhandled_data_handler_name = var.qbo_unhandled_data_handler_name
   qbo_unhandled_data_sqs_name = var.qbo_unhandled_data_sqs_name
-  api_host = "https://${var.domain_name_new}/api"
+  api_host = "https://${var.domain_name}/api"
   lambda_secret = var.dev_lambda_secret
-}
-
-# V2
-module "v2_ecs" {
-  environment_name = var.environment_name
-  source           = "../../../modules/ecs"
-  ecs_cluster_name = "v2_${var.ecs_cluster_name}"
-}
-
-module "v2_ecr" {
-  environment_name = var.environment_name
-  source           = "../../../modules/ecr"
-  ecr_name         = "v2_${var.ecr_name}"
-  mutability       = var.mutability
-  scan_on_push     = var.scan_on_push
-}
-
-module "v2_acm_certificate" {
-  environment_name      = var.environment_name
-  source                = "../../../modules/acm_certificate"
-  domain_name           = var.domain_name_new
-  validation_method     = var.validation_method
-  create_before_destroy = var.create_before_destroy
-}
-
-module "v2_load_balancing" {
-  environment_name    = var.environment_name
-  source              = "../../../modules/load_balancing"
-  alb_name            = "v2-${var.alb_name}"
-  lb_target_group     = "v2-${var.lb_target_group}"
-  security_group_ids  = [module.security_group.id]
-  subnet_ids          = module.vpc.subnet_ids
-  vpc_id              = module.vpc.vpc_id
-  acm_certificate_arn = module.v2_acm_certificate.acm_certificate_arn
-  health_check_path   = "/api/health"
-}
-
-module "v2_cloudwatch_log" {
-  source                    = "../../../modules/cloudwatch_log"
-  cloudwatch_log_group_name = "v2_${var.cloudwatch_log_group_name}"
-}
-
-module "v2_ecs_service" {
-  environment_name                          = var.environment_name
-  source                                    = "../../../modules/ecs_service"
-  vpc_id                                    = module.vpc.vpc_id
-  iam_role_arn                              = module.iam_role.iam_role_arn
-  ecs_cluster_id                            = module.v2_ecs.ecs_cluster_id
-  repository_url                            = module.v2_ecr.repository_url
-  aws_lb_target_group_arn                   = module.v2_load_balancing.aws_lb_target_group_arn
-  ecs_service_private_namespace_name        = "v2_${var.ecs_service_private_namespace_name}"
-  ecs_service_private_namespace_description = "v2_${var.ecs_service_private_namespace_description}"
-  ecs_service_name                          = "v2_${var.ecs_service_name}"
-  container_name                            = "v2_${var.container_name}"
-  container_port                            = var.container_port
-  subnet_ids                                = module.vpc.subnet_ids
-  security_group_ids                        = [module.security_group.id]
-  aws_region                                = var.aws_region
-  cloudwatch_log_group_name                 = module.v2_cloudwatch_log.name
-  ecs_cluster_name                          = "v2_${var.ecs_cluster_name}"
-  task_family_name                          = "v2_${var.task_family_name}"
-  ecs_task_policy_name                      = "v2-${var.ecs_task_policy_name}"
-  ecs_task_role_name                        = "v2-${var.ecs_task_role_name}"
 }
 
 module "ses" {
@@ -299,8 +237,8 @@ module "lambda_error_log_handler" {
   environment_name    = var.environment_name
   lambda_name         = var.error_log_handler_name
   slack_webhook_host  = var.slack_webhook_host
-  cloudwatch_log_name = module.v2_cloudwatch_log.name
-  cloudwatch_log_arn  = module.v2_cloudwatch_log.arn
+  cloudwatch_log_name = module.cloudwatch_log.name
+  cloudwatch_log_arn  = module.cloudwatch_log.arn
   aws_region          = var.aws_region
 }
 
@@ -312,8 +250,8 @@ module "lambda_health_check_fail_handler" {
   aws_region              = var.aws_region
   alarm_metric_name       = var.alarm_metric_name
   sns_name                = var.health_check_fail_sns_name
-  target_group_arn_suffix = module.v2_load_balancing.target_group_arn_suffix
-  lb_arn_suffix           = module.v2_load_balancing.lb_arn_suffix
+  target_group_arn_suffix = module.load_balancing.target_group_arn_suffix
+  lb_arn_suffix           = module.load_balancing.lb_arn_suffix
 }
 
 module "get_new_order_handler" {
@@ -322,7 +260,7 @@ module "get_new_order_handler" {
   get_new_order_handle_name       = var.get_new_order_handle_name
   get_new_order_name              = var.get_new_order_name
   trigger_get_new_order_name      = var.trigger_get_new_order_name
-  api_host                        = "https://${var.domain_name_new}/api/retailer-purchase-orders/import-by-group-retailers"
+  api_host                        = "https://${var.domain_name}/api/retailer-purchase-orders/import-by-group-retailers"
   lambda_secret                   = var.dev_lambda_secret
   retailer_getting_order_sqs_name = var.retailer_getting_order_sqs_name
 }
