@@ -40,8 +40,19 @@ resource "aws_iam_role_policy" "qbo_unhandled_data_handler_policy" {
   EOF
 }
 
+resource "aws_sqs_queue" "failure_qbo_unhandled_data_sqs" {
+  name = "${var.environment_name}-failure-${var.qbo_unhandled_data_sqs_name}"
+  tags = {
+    Environment = var.environment_name
+  }
+}
+
 resource "aws_sqs_queue" "qbo_unhandled_data_sqs" {
   name = "${var.environment_name}-${var.qbo_unhandled_data_sqs_name}"
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.failure_qbo_unhandled_data_sqs.arn,
+    maxReceiveCount     = 3
+  })
   tags = {
     Environment = var.environment_name
   }

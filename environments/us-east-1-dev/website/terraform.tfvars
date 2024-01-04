@@ -61,14 +61,10 @@ backup_retention_period         = 7
 # End RDS
 
 # ACM Certificate
-domain_name           = "api.selleraxis.com"
+domain_name           = "api.dev.selleraxis.com"
 validation_method     = "DNS"
 create_before_destroy = true
 # End ACM Certificate
-
-# New Cert
-domain_name_new           = "api.dev.selleraxis.com"
-# End new cert
 
 # CloudWatch Log
 cloudwatch_log_group_name = "selleraxis/backend-api-service"

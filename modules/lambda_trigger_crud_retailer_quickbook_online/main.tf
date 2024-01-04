@@ -40,8 +40,19 @@ resource "aws_iam_role_policy" "trigger_crud_retailer_quickbook_online_policy" {
   EOF
 }
 
+resource "aws_sqs_queue" "failure_crud_retailer_sqs" {
+  name = "${var.environment_name}-failure-${var.crud_retailer_sqs_name}"
+  tags = {
+    Environment = var.environment_name
+  }
+}
+
 resource "aws_sqs_queue" "crud_retailer_sqs" {
   name = "${var.environment_name}-${var.crud_retailer_sqs_name}"
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.failure_crud_retailer_sqs.arn,
+    maxReceiveCount     = 3
+  })
   tags = {
     Environment = var.environment_name
   }
